@@ -4,17 +4,17 @@ var AWS = require('aws-sdk');
 
 /********** CONFIGS **********/
 
-var BUCKET_NAME = process.env.bucket_name || 'homeup-dev';
-var FOLDER = process.env.folder || 'screenshot';
-var FILENAME_BASE = process.env.prefix || 'lp_';
+var BUCKET_NAME = process.env.BUCKET_NAME || 'homeup-dev';
+var FOLDER = process.env.FOLDER || 'screenshot';
+var FILENAME_BASE = process.env.PREFIX || 'ss_';
 var PHANTOM_BINARY = 'phantomjs';
 
 /********** HELPERS **********/
 
-var filepath = function(base) {
+var filepath = function(base, folder) {
   var today = new Date();
   var filename = base + today.getTime() + ".jpeg";
-  return FOLDER + "/" + filename;
+  return FOLDER + "/" + folder + "/" + filename;
 }
 
 var save_to_s3 = function(payload, path, context) {
@@ -37,11 +37,12 @@ var save_to_s3 = function(payload, path, context) {
 
 exports.handler = function(event, context) {
   process.env['PATH'] = process.env['PATH'] + ':' + process.env['LAMBDA_TASK_ROOT'];
+  var message = JSON.parse(event.Records[0].Sns.Message);
   var phantomPath = path.join(__dirname, PHANTOM_BINARY);
   var processArgs = [
     "--ssl-protocol=any",
     path.join(__dirname, 'phantom-script.js'),
-    event.url
+    message.url || "http://google.co.jp"
   ];
 
   childProcess.exec('mv fontconfig /tmp/fontconfig; /tmp/fontconfig/usr/bin/fc-cache -fs', function(error) {
@@ -56,7 +57,7 @@ exports.handler = function(event, context) {
       }
 
       var buffer = new Buffer(stdout, 'base64');
-      save_to_s3(buffer, filepath(FILENAME_BASE), context);
+      save_to_s3(buffer, filepath(FILENAME_BASE, message.site_id || "test"), context);
     });
   });
 }
