@@ -4,20 +4,16 @@
 ## ENV
 ```bash
 export LD_LIBRARY_PATH=/tmp/fontconfig/lib/
-
-export BUCKET_NAME=homeup-dev
-export FOLDER=screenshot
-export PREFIX=ss_
 ```
 
 ## Request
 ```
-{"url": "http://google.co.jp"}
+{"url": "http://google.co.jp", "bucket": "homeup-dev", "key": "screenshot/site/abc12345/ss_123.jpeg"}
 ```
 
 ## Response
 ```
-"screenshot/ss_1489557470600.jpeg"
+Done!
 ```
 
 ## Deploy to lambda

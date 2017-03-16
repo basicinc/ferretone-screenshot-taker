@@ -29,7 +29,7 @@ var save_to_s3 = function(payload, bucket, path, context) {
     if (err) {
       context.fail(err);
     } else {
-      context.succeed(path);
+      context.succeed("Done!");
     }
   });
 };
