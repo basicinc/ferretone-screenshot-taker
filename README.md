@@ -11,6 +11,14 @@ export LD_LIBRARY_PATH=/tmp/fontconfig/lib/
 {"url": "http://google.co.jp", "bucket": "homeup-dev", "key": "screenshot/site/abc12345/ss_123.jpeg"}
 ```
 
+## Params
+| Name   | Description | Excample | |
+|-------|-------------|----------|-----------|
+| url    | ページのURL  | http://ferret-one.com | Required |
+| bucket | S3のbucket | homeup-dev | Required |
+| key    | S3のkey     | screenshot/site/abc12345/ss_123.jpeg | Required |
+| ratio  | イメージのラチオ。価値がない場合フルサイズを取ります | 3:4 | Optional |
+
 ## Response
 ```
 Done!

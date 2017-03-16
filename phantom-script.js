@@ -5,6 +5,7 @@ page.settings.userAgent = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.3
 
 // Passed in from parent process
 var url = system.args[1];
+var ratio = system.args[2].split(/[:\/]/).reduce(function(width, height){return parseInt(width)/parseInt(height)});
 
 page.viewportSize = {
   width: 1280,
@@ -12,16 +13,16 @@ page.viewportSize = {
 };
 
 page.open(url, function start(status) {
-
-  // Set the background to white, just in case
-  // page.evaluate(function() {
-  //   document.body.style.background = 'white';
-  // });
-
-  // Wait an extra second for things to load
   window.setTimeout(function() {
+    if (ratio && ratio > 0) {
+      page.clipRect = {
+        top:    0,
+        left:   0,
+        width:  page.viewportSize.width,
+        height: page.viewportSize.width/ratio
+      };
+    }
 
-    // Return image of the page as base64-encoded string
     var base64 = page.renderBase64('JPEG');
     system.stdout.write(base64);
     phantom.exit();

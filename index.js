@@ -43,7 +43,8 @@ exports.handler = function(event, context) {
   var processArgs = [
     "--ssl-protocol=any",
     path.join(__dirname, 'phantom-script.js'),
-    message.url
+    message.url,
+    message.ratio
   ];
   var retry = message.retry || 0;
 
