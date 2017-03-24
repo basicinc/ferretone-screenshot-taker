@@ -13,6 +13,10 @@ page.viewportSize = {
 };
 
 page.open(url, function start(status) {
+  page.evaluate(function() {
+    document.body.style.background = 'white';
+  });
+
   window.setTimeout(function() {
     if (ratio && ratio > 0) {
       page.clipRect = {
