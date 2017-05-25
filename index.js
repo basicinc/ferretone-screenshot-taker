@@ -48,6 +48,7 @@ exports.handler = function(event, context) {
   ];
   var retry = message.retry || 0;
 
+  console.log("Received: ", message);
   if (!message.url || !message.key || !message.bucket) {
     context.fail("Url and key must be provided.");
     return;
